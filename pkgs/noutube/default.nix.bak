@@ -41,21 +41,22 @@ stdenv.mkDerivation rec {
   installPhase = ''
     runHook preInstall
 
-    mkdir -p $out/share/noutube $out/bin
-    mkdir -p $out/share/icons/hicolor/512x512/apps
+    mkdir -p $out/share/noutube $out/share/pixmaps $out/bin
 
+    # Handle subfolder extracted by electron-builder zip
     if [ -d "dist/linux-unpacked" ]; then
       cd dist/linux-unpacked
     fi
 
+    # Copy resources folder containing app.asar
     cp -r resources $out/share/noutube/
 
+    # Copy application icon if available
     if [ -f resources/icon.png ]; then
-      cp resources/icon.png $out/share/icons/hicolor/512x512/apps/noutube.png
-    elif [ -f icon.png ]; then
-      cp icon.png $out/share/icons/hicolor/512x512/apps/noutube.png
+      cp resources/icon.png $out/share/pixmaps/noutube.png
     fi
 
+    # Create binary wrapper executing system Electron with app.asar
     makeWrapper ${electron}/bin/electron $out/bin/noutube \
       --add-flags "$out/share/noutube/resources/app.asar" \
       --add-flags "--ozone-platform-hint=auto" \
