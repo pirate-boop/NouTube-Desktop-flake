@@ -1,0 +1,17 @@
+{
+    "noutube": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "noutube",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-gBT2urUPZjnaM1hX08AqcIoZtR6yVkwfb25gK8FpDYI=",
+            "type": "url",
+            "url": "https://github.com/nonbili/NouTube-Desktop/releases/download/v0.3.0/linux-unpacked.zip"
+        },
+        "version": "v0.3.0"
+    }
+}

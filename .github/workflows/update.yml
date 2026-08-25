@@ -1,0 +1,43 @@
+name: Auto Update Sources
+
+on:
+  schedule:
+    # Run daily at 03:00 UTC
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-sources:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v30
+        with:
+          nix_conf: "experimental-features = nix-command flakes"
+
+      - name: Run nvfetcher update
+        run: nix run nixpkgs#nvfetcher
+
+      - name: Check for build regression
+        run: nix build .#noutube --no-link
+
+      - name: Update flake.lock and commit changes
+        run: |
+          nix flake update
+          if git status --porcelain | grep -E '_sources|flake.lock'; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add _sources flake.lock
+            
+            NEW_VER=$(nix eval --raw .#noutube.version)
+            git commit -m "chore(deps): update noutube to $NEW_VER and update inputs"
+            git push
+          else
+            echo "No changes detected."
+          fi

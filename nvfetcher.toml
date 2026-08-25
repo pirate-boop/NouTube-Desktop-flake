@@ -1,0 +1,3 @@
+[noutube]
+src.github_tag = "nonbili/NouTube-Desktop"
+fetch.url = "https://github.com/nonbili/NouTube-Desktop/releases/download/$ver/linux-unpacked.zip"
