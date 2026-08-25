@@ -1,52 +1,44 @@
 ```markdown
 # NouTube Desktop Flake
 
-Standalone, automated Nix Flake for [NouTube Desktop](https://github.com/nonbili/NouTube-Desktop). It wraps the application using system Electron for native Wayland performance without Flatpak or AppImage overhead.
+Standalone, automated Nix Flake for [NouTube Desktop](https://github.com/nonbili/NouTube-Desktop). Wraps the application using system Electron for native Wayland performance.
 
 Sources and dependency hashes are automatically updated daily via `nvfetcher` and GitHub Actions.
 
-**Quick Try (Without Installation)**
+## Quick Try
 
-Run NouTube directly without modifying your system configuration:
+Run NouTube directly without installation:
 
 ```bash
 nix run github:pirate-boop/NouTube-Desktop-flake
 
 ```
 
-**Installation**
+## Installation
 
 Add the repository to your `flake.nix` inputs:
 
 ```nix
-# flake.nix
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     noutube.url = "github:pirate-boop/NouTube-Desktop-flake";
   };
-
-  outputs = { self, nixpkgs, noutube, ... }: {
-    # System or Home Manager output configurations
-  };
 }
 
 ```
 
-Choose one of the following installation methods:
+### Method 1: System Overlay (Recommended)
 
-**Method 1: System Overlay (Recommended)**
-
-Using the overlay is the cleanest approach. It injects `noutube` into `pkgs`, making it natively accessible across NixOS and Home Manager configurations.
+Injects `noutube` into `pkgs`, making it available everywhere across NixOS and Home Manager:
 
 ```nix
-# In your NixOS configuration module
+# NixOS module
 { pkgs, inputs, ... }: {
   nixpkgs.overlays = [
     inputs.noutube.overlays.default
   ];
 
-  # Package is now available directly in pkgs scope
   environment.systemPackages = [
     pkgs.noutube
   ];
@@ -54,12 +46,12 @@ Using the overlay is the cleanest approach. It injects `noutube` into `pkgs`, ma
 
 ```
 
-**Method 2: System Package (Direct Input)**
+### Method 2: System Package
 
-If you prefer referencing flake outputs directly without altering global overlays:
+Direct package usage without global overlays:
 
 ```nix
-# In your NixOS configuration module
+# NixOS module
 { pkgs, inputs, ... }: {
   environment.systemPackages = [
     inputs.noutube.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -68,24 +60,23 @@ If you prefer referencing flake outputs directly without altering global overlay
 
 ```
 
-**Method 3: Home Manager**
+### Method 3: Home Manager
 
-To install the package strictly for your individual user profile:
+Install strictly for your user profile:
 
 ```nix
-# In your home.nix module
+# home.nix
 { pkgs, inputs, ... }: {
   home.packages = [
     inputs.noutube.packages.${pkgs.stdenv.hostPlatform.system}.default
-    # Or 'pkgs.noutube' if system overlay is enabled
   ];
 }
 
 ```
 
-**Updating**
+## Updating
 
-Upstream updates are fetched automatically every 24 hours. To update NouTube on your system, execute:
+Update NouTube inputs in your system configuration:
 
 ```bash
 nix flake update noutube
@@ -93,5 +84,16 @@ nix flake update noutube
 ```
 
 ```
+
+---
+
+### Обновление на GitHub
+
+Сохрани файл и обнови репозиторий из терминала:
+
+```bash
+git add README.md
+git commit -m "fix: format README markdown correctly"
+git push
 
 ```
