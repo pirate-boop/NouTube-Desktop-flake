@@ -1,4 +1,4 @@
-```markdown
+```
 # NouTube Desktop Flake
 
 Standalone, automated Nix Flake for [NouTube Desktop](https://github.com/nonbili/NouTube-Desktop). Wraps the application using system Electron for native Wayland performance.
@@ -86,14 +86,3 @@ nix flake update noutube
 ```
 
 ---
-
-### Обновление на GitHub
-
-Сохрани файл и обнови репозиторий из терминала:
-
-```bash
-git add README.md
-git commit -m "fix: format README markdown correctly"
-git push
-
-```
