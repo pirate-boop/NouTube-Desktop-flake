@@ -8,10 +8,10 @@
 {
   noutube = {
     pname = "noutube";
-    version = "v0.3.1";
+    version = "v0.3.2";
     src = fetchurl {
-      url = "https://github.com/nonbili/NouTube-Desktop/releases/download/v0.3.1/linux-unpacked.zip";
-      sha256 = "sha256-UIB7a9Dg9/Xt+PVNKn2pxGcfZPVYUnQL4NrZB+R0FhI=";
+      url = "https://github.com/nonbili/NouTube-Desktop/releases/download/v0.3.2/linux-unpacked.zip";
+      sha256 = "sha256-EC/GBTWg8NX548OBEh9CgHP/u2gPZsMJ0gAUOwJPh50=";
     };
   };
 }
